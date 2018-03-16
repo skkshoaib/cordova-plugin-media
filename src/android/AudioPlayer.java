@@ -336,8 +336,14 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             this.setState(STATE.MEDIA_PAUSED);
         }
         else {
-            LOG.d(LOG_TAG, "AudioPlayer Error: pausePlaying() called during invalid state: " + this.state.ordinal());
-            sendErrorStatus(MEDIA_ERR_NONE_ACTIVE);
+            try{
+                this.player.pause();
+                this.setState(STATE.MEDIA_PAUSED);
+            }
+            catch (Exception e){
+                LOG.d(LOG_TAG, "AudioPlayer Error: pausePlaying() called during invalid state: " + this.state.ordinal());
+                sendErrorStatus(MEDIA_ERR_NONE_ACTIVE);
+            }
         }
     }
 

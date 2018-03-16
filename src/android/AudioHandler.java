@@ -157,6 +157,7 @@ public class AudioHandler extends CordovaPlugin {
                this.setRate(args.getString(0), Float.parseFloat(args.getString(1)));
            } catch (NumberFormatException nfe) {
                //no-op
+	  }
         }
 	else if (action.equals("getCurrentPositionAudio")) {
             float f = this.getCurrentPositionAudio(args.getString(0));

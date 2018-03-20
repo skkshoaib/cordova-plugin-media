@@ -37,7 +37,7 @@ var mediaObjects = {};
  * @param statusCallback        The callback to be called when media status has changed.
  *                                  statusCallback(int statusCode) - OPTIONAL
  */
-var Media = function(src, successCallback, errorCallback, statusCallback) {
+var Media = function(src, successCallback, errorCallback, statusCallback,initializedCallback) {
     argscheck.checkArgs('sFFF', 'Media', arguments);
     this.id = utils.createUUID();
     mediaObjects[this.id] = this;
@@ -47,6 +47,7 @@ var Media = function(src, successCallback, errorCallback, statusCallback) {
     this.statusCallback = statusCallback;
     this._duration = -1;
     this._position = -1;
+    this.initializedCallback=initializedCallback;
     exec(null, this.errorCallback, "Media", "create", [this.id, this.src]);
 };
 
@@ -55,6 +56,7 @@ Media.MEDIA_STATE = 1;
 Media.MEDIA_DURATION = 2;
 Media.MEDIA_POSITION = 3;
 Media.MEDIA_ERROR = 9;
+Media.MEDIA_INTIALIZED = 99;
 
 // Media states
 Media.MEDIA_NONE = 0;
@@ -170,7 +172,7 @@ Media.prototype.setVolume = function(volume) {
  * Adjust the playback rate.
  */
 Media.prototype.setRate = function(rate) {
-    if (cordova.platformId === 'ios' || cordova.platformId === 'android' ){
+    if (cordova.platformId === 'ios'){
         exec(null, null, "Media", "setRate", [this.id, rate]);
     } else {
         console.warn('media.setRate method is currently not supported for', cordova.platformId, 'platform.');
@@ -216,6 +218,11 @@ Media.onStatus = function(id, msgType, value) {
             case Media.MEDIA_ERROR :
                 if (media.errorCallback) {
                     media.errorCallback(value);
+                }
+                break;
+            case Media.MEDIA_INTIALIZED :
+                if (media.initializedCallback) {
+                    media.initializedCallback(Number(value));
                 }
                 break;
             case Media.MEDIA_POSITION :

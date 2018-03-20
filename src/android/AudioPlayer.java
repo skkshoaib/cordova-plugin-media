@@ -70,6 +70,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private static int MEDIA_DURATION = 2;
     private static int MEDIA_POSITION = 3;
     private static int MEDIA_ERROR = 9;
+    private static int MEDIA_INITIALIZED=99;
 
     // Media error codes
     private static int MEDIA_ERR_NONE_ACTIVE    = 0;
@@ -460,6 +461,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             this.seekOnPrepared = 0; //reset only when played
         } else {
             this.setState(STATE.MEDIA_STARTING);
+            sendStatusChange(MEDIA_INITIALIZED, null, getDurationInSeconds());
         }
         // Save off duration
         this.duration = getDurationInSeconds();

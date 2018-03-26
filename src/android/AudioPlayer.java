@@ -60,7 +60,8 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                         MEDIA_RUNNING,
                         MEDIA_PAUSED,
                         MEDIA_STOPPED,
-                        MEDIA_LOADING
+                        MEDIA_LOADING,
+                        MEDIA_FINISHED
                       };
 
     private static final String LOG_TAG = "AudioPlayer";
@@ -378,6 +379,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      */
     public void onCompletion(MediaPlayer player) {
         LOG.d(LOG_TAG, "on completion is calling stopped");
+        this.setState(STATE.MEDIA_FINISHED);
         this.setState(STATE.MEDIA_STOPPED);
     }
 
@@ -595,7 +597,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      * @param file the file to play
      * @return false if player not ready, reports if in wrong mode or state
      */
-    private boolean readyPlayer(String file) {
+    public boolean readyPlayer(String file) {
         if (playMode()) {
             switch (this.state) {
                 case MEDIA_NONE:
@@ -619,6 +621,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                 case MEDIA_PAUSED:
                     return true;
                 case MEDIA_STOPPED:
+                case MEDIA_FINISHED:
                     //if we are readying the same file
                     if (file!=null && this.audioFile.compareTo(file) == 0) {
                         //maybe it was recording?

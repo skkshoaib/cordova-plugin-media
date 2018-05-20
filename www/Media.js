@@ -38,7 +38,7 @@ var mediaObjects = {};
  *                                  statusCallback(int statusCode) - OPTIONAL
  */
 var Media = function(src, successCallback, errorCallback, statusCallback,initializedCallback) {
-    argscheck.checkArgs('sFFF', 'Media', arguments);
+    argscheck.checkArgs('snFFF', 'Media', arguments);
     this.id = utils.createUUID();
     mediaObjects[this.id] = this;
     this.src = src;

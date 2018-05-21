@@ -30,6 +30,7 @@ var mediaObjects = {};
  *
  * @constructor
  * @param src                   The file name or url to play
+ * @param delayRate             Delay rate for the Audio
  * @param successCallback       The callback to be called when the file is done playing or recording.
  *                                  successCallback()
  * @param errorCallback         The callback to be called if there is an error.
@@ -37,8 +38,8 @@ var mediaObjects = {};
  * @param statusCallback        The callback to be called when media status has changed.
  *                                  statusCallback(int statusCode) - OPTIONAL
  */
-var Media = function(src, successCallback, errorCallback, statusCallback,initializedCallback) {
-    argscheck.checkArgs('sFFF', 'Media', arguments);
+var Media = function(src,delayRate, successCallback, errorCallback, statusCallback,initializedCallback) {
+    argscheck.checkArgs('snFFFF', 'Media', arguments);
     this.id = utils.createUUID();
     mediaObjects[this.id] = this;
     this.src = src;
@@ -48,7 +49,7 @@ var Media = function(src, successCallback, errorCallback, statusCallback,initial
     this._duration = -1;
     this._position = -1;
     this.initializedCallback=initializedCallback;
-    exec(null, this.errorCallback, "Media", "create", [this.id, this.src]);
+    exec(null, this.errorCallback, "Media", "create", [this.id, this.src,delayRate]);
 };
 
 // Media messages

@@ -173,7 +173,9 @@ public class AudioHandler extends CordovaPlugin {
             String id = args.getString(0);
             String src = FileHelper.stripFileProtocol(args.getString(1));
             AudioPlayer audio=getOrCreatePlayer(id, src);
+            Float rate=Float.parseFloat(args.getString(2));
             audio.readyPlayer(src);
+      	    audio.setRate(rate);
         }
         else if (action.equals("release")) {
             boolean b = this.release(args.getString(0));

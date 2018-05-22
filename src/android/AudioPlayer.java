@@ -463,6 +463,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             this.seekOnPrepared = 0; //reset only when played
         } else {
             this.setState(STATE.MEDIA_STARTING);
+            this.pausePlaying();
             sendStatusChange(MEDIA_INITIALIZED, null, getDurationInSeconds());
         }
         // Save off duration
